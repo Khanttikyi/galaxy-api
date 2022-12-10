@@ -1,13 +1,12 @@
 var mysql = require('mysql');
 const pool = mysql.createPool({
-    host: 'localhost',
-    // port     : '3306',
-    user: 'root',
-    password: '',
-    database: 'galaxy'
-
-});
-
+    host     : 'mysql-99757-0.cloudclusters.net',
+   port     : '10109',
+    user     : 'khanttikyi',
+    password : 'khanttikyi',
+    database : 'galaxy'
+  
+  });
 const getEmployee = (request, response) => {
     pool.query('SELECT * FROM employee ', (error, results) => {
         if (error) {

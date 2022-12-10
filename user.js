@@ -7,11 +7,19 @@ const Pool = require('pg').Pool
 //   port: 5432,
 // })
 var mysql = require('mysql');
+// const pool = mysql.createPool({
+//   host     : 'localhost',
+//  // port     : '3306',
+//   user     : 'root',
+//   password : '',
+//   database : 'galaxy'
+
+// });
 const pool = mysql.createPool({
-  host     : 'localhost',
- // port     : '3306',
-  user     : 'root',
-  password : '',
+  host     : 'mysql-99757-0.cloudclusters.net',
+ port     : '10109',
+  user     : 'khanttikyi',
+  password : 'khanttikyi',
   database : 'galaxy'
 
 });
