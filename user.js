@@ -1,18 +1,27 @@
 const Pool = require('pg').Pool
-const pool = new Pool({
-  user: 'me',
-  host: 'localhost',
-  database: 'galaxy',
-  password: 'admin',
-  port: 5432,
-})
+// const pool = new Pool({
+//   user: 'me',
+//   host: 'localhost',
+//   database: 'galaxy',
+//   password: 'admin',
+//   port: 5432,
+// })
+var mysql = require('mysql');
+const pool = mysql.createPool({
+  host     : 'localhost',
+ // port     : '3306',
+  user     : 'root',
+  password : '',
+  database : 'galaxy'
+
+});
 
 const getUsers = (request, response) => {
-  pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
+  pool.query('SELECT * FROM user ', (error, results) => {
     if (error) {
       throw error
     }
-    response.status(200).json(results.rows)
+    response.status(200).json(results)
   })
 }
 const getUserById = (request, response) => {
