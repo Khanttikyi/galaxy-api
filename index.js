@@ -5,6 +5,8 @@ const mysql = require('mysql')
 const app = express()
 const db = require('./user')
 const employee = require('./employee')
+const department = require('./department')
+const position = require('./position')
 app.use(cors());
 const port = 3000
 
@@ -32,6 +34,13 @@ app.get('/employee/:id',employee.getEmployeeById)
 app.post('/employee', employee.createEmployee)
 app.put('/employee/:id', employee.updateEmployee)
 app.delete('/employee/:id', employee.deleteEmployee)
+
+//Department
+app.get('/getDepartments',department.getDepartments)
+app.post('/department', department.createDepartment)
+//Position
+app.get('/getPositions',position.getPositions)
+app.post('/position', position.createPosition)
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
 })

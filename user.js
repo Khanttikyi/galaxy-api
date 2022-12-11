@@ -15,15 +15,15 @@ var mysql = require('mysql');
 //   database : 'galaxy'
 
 // });
+const db = require('./database-config')
 const pool = mysql.createPool({
-  host     : 'mysql-99757-0.cloudclusters.net',
- port     : '10109',
-  user     : 'khanttikyi',
-  password : 'khanttikyi',
-  database : 'galaxy'
+    host: db.development.database.host,
+    port: db.development.database.port,
+    user: db.development.database.user,
+    password: db.development.database.password,
+    database: db.development.database.database,
 
 });
-
 const getUsers = (request, response) => {
   pool.query('SELECT * FROM user ', (error, results) => {
     if (error) {
