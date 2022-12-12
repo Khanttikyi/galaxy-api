@@ -29,17 +29,18 @@ app.put('/users/:id', db.updateUser)
 app.delete('/users/:id', db.deleteUser)
 
 // EMPLOYEE
-app.get('/getEmployee',employee.getEmployee)
-app.get('/employee/:id',employee.getEmployeeById)
+app.get('/getEmployee', employee.getEmployee)
+app.get('/employee/:id', employee.getEmployeeById)
 app.post('/employee', employee.createEmployee)
 app.put('/employee/:id', employee.updateEmployee)
 app.delete('/employee/:id', employee.deleteEmployee)
+app.get('/employee/searchEmployee/:employee_status/:employee_name/:employee_department', employee.searchEmployee)
 
 //Department
-app.get('/getDepartments',department.getDepartments)
+app.get('/getDepartments', department.getDepartments)
 app.post('/department', department.createDepartment)
 //Position
-app.get('/getPositions',position.getPositions)
+app.get('/getPositions', position.getPositions)
 app.post('/position', position.createPosition)
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)

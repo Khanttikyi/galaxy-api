@@ -63,6 +63,18 @@ const deleteEmployee = (request, response) => {
     })
 }
 
+const searchEmployee = (request, response) => {
+    const employee_status = parseInt(request.params.employee_status)
+    const employee_name = parseInt(request.params.employee_name)
+    const employee_department = parseInt(request.params.employee_department)
+    pool.query('SELECT * FROM employee WHERE employee_status = ?', [employee_status], (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).json(results)
+    })
+}
+
 
 module.exports = {
     getEmployee,
@@ -70,4 +82,5 @@ module.exports = {
     createEmployee,
     updateEmployee,
     deleteEmployee,
+    searchEmployee,
 }
