@@ -67,7 +67,9 @@ const searchEmployee = (request, response) => {
     const employee_status = request.query.employee_status
     const employee_name = request.query.employee_name
     const employee_department = request.query.employee_department
-    pool.query('SELECT * FROM employee where employee_name=? AND employee_department=? AND employee_status=?',[employee_name,employee_department,employee_status] ,(error, results) => {
+    // console.log(`SELECT * FROM employee where ${employee_name ? 'employee_name =?' : ''} ${employee_department ? 'AND employee_department =?' : ''} ${(employee_name || employee_department) && employee_status ? 'AND ' : ''} ${employee_status ? 'employee_status =?' : ''} `,)
+
+    pool.query(`SELECT * FROM employee where ${employee_name?'employee_name=?':''}${employee_name&&employee_department?'AND ':''}${employee_department?'employee_department=?':''}${(employee_name || employee_department)&&employee_status?'AND ':''}${employee_status?'employee_status=?':''}`,[employee_name,employee_department,employee_status], (error, results) => {
         console.log("result", results)
         if (error) {
             throw error
