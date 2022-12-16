@@ -64,15 +64,22 @@ const deleteEmployee = (request, response) => {
 }
 
 const searchEmployee = (request, response) => {
-    const employee_status = parseInt(request.params.employee_status)
-    const employee_name = parseInt(request.params.employee_name)
-    const employee_department = parseInt(request.params.employee_department)
-    pool.query('SELECT * FROM employee WHERE employee_status = ?', [employee_status], (error, results) => {
+    const employee_status = request.query.employee_status
+    const employee_name = request.query.employee_name
+    const employee_department = request.query.employee_department
+    pool.query('SELECT * FROM employee where employee_name=? AND employee_department=? AND employee_status=?',[employee_name,employee_department,employee_status] ,(error, results) => {
+        console.log("result", results)
         if (error) {
             throw error
         }
         response.status(200).json(results)
     })
+    // pool.query('SELECT * FROM employee WHERE employee_status = ?', [employee_status], (error, results) => {
+    //     if (error) {
+    //         throw error
+    //     }
+    //     response.status(200).json(results)
+    // })
 }
 
 

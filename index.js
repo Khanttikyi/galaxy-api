@@ -34,6 +34,7 @@ app.get('/employee/:id', employee.getEmployeeById)
 app.post('/employee', employee.createEmployee)
 app.put('/employee/:id', employee.updateEmployee)
 app.delete('/employee/:id', employee.deleteEmployee)
+app.get('/searchEmployee/', employee.searchEmployee)
 app.get('/employee/searchEmployee/:employee_status/:employee_name/:employee_department', employee.searchEmployee)
 
 //Department
