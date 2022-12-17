@@ -5,7 +5,7 @@ var config = {
             host: 'localhost',
             user: 'root',
             password: '',
-            database: 'glaxy_myanmar'
+            database: 'galaxy'
         },
     
 

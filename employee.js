@@ -27,7 +27,6 @@ const getEmployeeById = (request, response) => {
 }
 
 const createEmployee = (request, response) => {
-    console.log("RES", request.body);
     const { employee_id, employee_name, employee_position, employee_department, employee_salary, employee_join_date, employee_status, employee_email, employee_phone, employee_nrc, employee_dob, employee_gender, employee_father_name, employee_address } = request.body
     pool.query('INSERT INTO employee (employee_id, employee_name, employee_position,employee_department, employee_salary, employee_join_date, employee_status, employee_email, employee_phone, employee_nrc, employee_dob, employee_gender, employee_father_name, employee_address) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [employee_id, employee_name, employee_position, employee_department, employee_salary, employee_join_date, employee_status, employee_email, employee_phone, employee_nrc, employee_dob, employee_gender, employee_father_name, employee_address], (error, results) => {
         if (error) {
@@ -41,7 +40,6 @@ const createEmployee = (request, response) => {
 
 const updateEmployee = (request, response) => {
     const id = parseInt(request.params.id)
-    console.log("RES", request.body);
     const { employee_id, employee_name, employee_position, employee_department, employee_salary, employee_join_date, employee_status, employee_email, employee_phone, employee_nrc, employee_dob, employee_gender, employee_father_name, employee_address } = request.body
     pool.query('UPDATE employee SET employee_id=?, employee_name=?, employee_position=?,employee_department=?, employee_salary=?, employee_join_date=?, employee_status=?, employee_email=?, employee_phone=?, employee_nrc=?, employee_dob=?, employee_gender=?, employee_father_name=?, employee_address=? WHERE employee_id = ?', [employee_id, employee_name, employee_position, employee_department, employee_salary, employee_join_date, employee_status, employee_email, employee_phone, employee_nrc, employee_dob, employee_gender, employee_father_name, employee_address, id], (error, results) => {
         if (error) {
@@ -67,9 +65,43 @@ const searchEmployee = (request, response) => {
     const employee_status = request.query.employee_status
     const employee_name = request.query.employee_name
     const employee_department = request.query.employee_department
-    // console.log(`SELECT * FROM employee where ${employee_name ? 'employee_name =?' : ''} ${employee_department ? 'AND employee_department =?' : ''} ${(employee_name || employee_department) && employee_status ? 'AND ' : ''} ${employee_status ? 'employee_status =?' : ''} `,)
+    console.log(`SELECT * FROM employee where ${employee_name ? 'employee_name=?' : ''}${employee_name && employee_department ? 'AND ' : ''}${employee_department ? 'employee_department=?' : ''}${(employee_name || employee_department) && employee_status ? 'AND ' : ''}${employee_status ? 'employee_status=?' : ''}`)
+    let query = 'SELECT * FROM employee '
+    let value;
 
-    pool.query(`SELECT * FROM employee where ${employee_name?'employee_name=?':''}${employee_name&&employee_department?'AND ':''}${employee_department?'employee_department=?':''}${(employee_name || employee_department)&&employee_status?'AND ':''}${employee_status?'employee_status=?':''}`,[employee_name,employee_department,employee_status], (error, results) => {
+    if (employee_name && employee_status && employee_department) {
+        query = query + 'where employee_name=? AND employee_status=? AND employee_department=?'
+        value = [employee_name, employee_status, employee_department]
+    }
+
+    else if (employee_name && employee_status) {
+        query = query + 'where employee_name=? AND employee_status=?'
+        value = [employee_name, employee_status]
+    }
+    else if (employee_name && employee_department) {
+        query = query + 'where employee_name=? AND employee_department=?'
+        value = [employee_name, employee_department]
+    }
+    else if (employee_status && employee_department) {
+        query = query + 'where employee_status=? AND employee_department=?'
+        value = [employee_status, employee_department]
+    }
+    else if (employee_name) {
+        query = query + 'where employee_name=?'
+        value = [employee_name]
+    }
+    else if (employee_status) {
+        query = query + 'where employee_status=?'
+        value = [employee_status]
+    }
+    else if (employee_department) {
+        query = query + 'where employee_department=?'
+        value = [employee_department]
+    }
+    else{
+        
+    }
+    pool.query(query, value, (error, results) => {
         console.log("result", results)
         if (error) {
             throw error

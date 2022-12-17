@@ -7,6 +7,7 @@ const db = require('./user')
 const employee = require('./employee')
 const department = require('./department')
 const position = require('./position')
+const attendance = require('./attendance')
 app.use(cors());
 const port = 3000
 
@@ -43,6 +44,8 @@ app.post('/department', department.createDepartment)
 //Position
 app.get('/getPositions', position.getPositions)
 app.post('/position', position.createPosition)
+//ATTENDANCE
+app.post('createCheckIn', attendance.createCheckIn)
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
 })
