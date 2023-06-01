@@ -17,13 +17,44 @@ var mysql = require('mysql');
 // });
 const db = require('./database-config')
 const pool = mysql.createPool({
-    host: db.development.database.host,
-    port: db.development.database.port,
-    user: db.development.database.user,
-    password: db.development.database.password,
-    database: db.development.database.database,
+  host: db.development.database.host,
+  port: db.development.database.port,
+  user: db.development.database.user,
+  password: db.development.database.password,
+  database: db.development.database.database,
 
 });
+
+const loginUser = (request, response) => {
+  const { username, password } = request.body
+
+  const query = `SELECT * FROM user WHERE username = ?`;
+  pool.query(query, [username], (err, results) => {
+    console.log("RES",results);
+    if (err) {
+      console.error('Error executing the query: ', err);
+      response.status(500).json({ message: 'Internal server error' });
+      return;
+    }
+
+    // Check if the user exists
+    if (results.length === 0) {
+      response.status(401).json({ message: 'Invalid username or password' });
+      return;
+    }
+
+    // Check if the password is correct
+    const user = results[0];
+    if (user.password !== password) {
+      response.status(401).json({ message: 'Invalid password' });
+      return;
+    }
+
+    // User authentication successful
+    response.status(200).json({ message: 'Login successful', user });
+  });
+}
+
 const getUsers = (request, response) => {
   pool.query('SELECT * FROM user ', (error, results) => {
     if (error) {
@@ -84,6 +115,7 @@ const deleteUser = (request, response) => {
 
 
 module.exports = {
+  loginUser,
   getUsers,
   getUserById,
   createUser,

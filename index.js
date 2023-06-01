@@ -23,6 +23,7 @@ app.get('/', (request, response) => {
 })
 
 // USER
+app.post('/loginUser', db.loginUser)
 app.get('/users', db.getUsers)
 app.get('/users/:id', db.getUserById)
 app.post('/users', db.createUser)
@@ -45,7 +46,9 @@ app.post('/department', department.createDepartment)
 app.get('/getPositions', position.getPositions)
 app.post('/position', position.createPosition)
 //ATTENDANCE
-app.post('createCheckIn', attendance.createCheckIn)
+app.get('/getAttendance/:id', attendance.getAttendanceById)
+app.post('/createCheckIn', attendance.createCheckIn)
+app.post('/createCheckOut', attendance.createCheckOut)
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
 })
